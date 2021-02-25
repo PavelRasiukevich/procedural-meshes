@@ -21,7 +21,7 @@ public class ProceduralContiguousGrid : MonoBehaviour
 
     private void Start()
     {
-        ContiguousGridData();
+        SetContiguousGridData();
         GenerateGrid();
     }
 
@@ -35,7 +35,7 @@ public class ProceduralContiguousGrid : MonoBehaviour
         mesh.RecalculateNormals();
     }
 
-    private void ContiguousGridData()
+    private void SetContiguousGridData()
     {
 
         vertices = new Vector3[(gridSize + 1) * (gridSize + 1)];

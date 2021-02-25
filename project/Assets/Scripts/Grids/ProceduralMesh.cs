@@ -18,12 +18,12 @@ public class ProceduralMesh : MonoBehaviour
 
     private void Update()
     {
-        MakeMeshData();
+        SetMeshData();
         GenerateMesh();
         mesh.RecalculateNormals();
     }
 
-    void MakeMeshData()
+    void SetMeshData()
     {
         vertices = new Vector3[]
         {
