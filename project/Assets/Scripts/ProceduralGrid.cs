@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
 public class ProceduralGrid : MonoBehaviour
@@ -10,34 +11,71 @@ public class ProceduralGrid : MonoBehaviour
     public Vector3 gridOffset;
     public int gridSize;
 
+    [SerializeField] Material custom, defaultMat;
+    [SerializeField] Material mat;
+
     Mesh mesh;
 
     Vector3[] vertices;
-    int[] trianles;
+    int[] triangles;
+    Color[] vertexColors;
+    Vector2[] uv;
 
     private void Awake()
     {
         mesh = GetComponent<MeshFilter>().mesh;
+        GetComponent<MeshRenderer>().sharedMaterial = mat;
+
     }
 
-    private void Start()
+    private void Update()
     {
-        MakeProceduralGrid();
-        GenerateGrid();
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+
+            GetComponent<MeshRenderer>().sharedMaterial = custom;
+            ProceduralGridData();
+            GenerateGrid();
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+
+            GetComponent<MeshRenderer>().sharedMaterial = defaultMat;
+            
+            ProceduralGridDataUV();
+            GenerateGridTexture();
+        }
     }
 
     private void GenerateGrid()
     {
         mesh.Clear();
+
         mesh.vertices = vertices;
-        mesh.triangles = trianles;
+        mesh.triangles = triangles;
+        mesh.colors = vertexColors;
+
         mesh.RecalculateNormals();
     }
 
-    private void MakeProceduralGrid()
+    private void GenerateGridTexture()
     {
+        mesh.Clear();
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.uv = uv;
+
+        mesh.RecalculateNormals();
+    }
+
+    private void ProceduralGridDataUV()
+    {
+
+
         vertices = new Vector3[gridSize * gridSize * 4];
-        trianles = new int[gridSize * gridSize * 6];
+        triangles = new int[gridSize * gridSize * 6];
+        vertexColors = new Color[vertices.Length];
+        uv = new Vector2[vertices.Length];
 
         float vertexOffset = cellSize * 0.5f;
 
@@ -52,22 +90,73 @@ public class ProceduralGrid : MonoBehaviour
                 Vector3 cellOffset = new Vector3(i * cellSize, 0, j * cellSize);
 
                 vertices[v + 0] = new Vector3(-vertexOffset, 0, -vertexOffset) + cellOffset;
-                vertices[v + 1] = new Vector3(-vertexOffset, yValue, vertexOffset) + cellOffset;
-                vertices[v + 2] = new Vector3(vertexOffset, yValue, -vertexOffset) + cellOffset;
+                vertices[v + 1] = new Vector3(-vertexOffset, 0, vertexOffset) + cellOffset;
+                vertices[v + 2] = new Vector3(vertexOffset, 0, -vertexOffset) + cellOffset;
                 vertices[v + 3] = new Vector3(vertexOffset, 0, vertexOffset) + cellOffset;
 
-                trianles[t + 0] = v + 0;
-                trianles[t + 1] = v + 1;
-                trianles[t + 2] = v + 2;
-                trianles[t + 3] = v + 3;
-                trianles[t + 4] = v + 2;
-                trianles[t + 5] = v + 1;
+                uv[v + 0] = new Vector2(-vertexOffset, -vertexOffset);
+                uv[v + 1] = new Vector2(-vertexOffset, vertexOffset);
+                uv[v + 2] = new Vector2(vertexOffset, -vertexOffset);
+                uv[v + 3] = new Vector2(vertexOffset, vertexOffset);
+
+                triangles[t + 0] = v + 0;
+                triangles[t + 1] = v + 1;
+                triangles[t + 2] = v + 2;
+                triangles[t + 3] = v + 3;
+                triangles[t + 4] = v + 2;
+                triangles[t + 5] = v + 1;
 
                 v += 4;
                 t += 6;
 
             }
         }
+    }
 
+    private void ProceduralGridData()
+    {
+
+
+        vertices = new Vector3[gridSize * gridSize * 4];
+        triangles = new int[gridSize * gridSize * 6];
+        vertexColors = new Color[vertices.Length];
+
+        float vertexOffset = cellSize * 0.5f;
+
+        int v = 0;
+        int t = 0;
+
+        for (int i = 0; i < gridSize; i++)
+        {
+            for (int j = 0; j < gridSize; j++)
+            {
+
+                Vector3 cellOffset = new Vector3(i * cellSize, 0, j * cellSize);
+
+                vertices[v + 0] = new Vector3(-vertexOffset, 0, -vertexOffset) + cellOffset;
+                vertices[v + 1] = new Vector3(-vertexOffset, 0, vertexOffset) + cellOffset;
+                vertices[v + 2] = new Vector3(vertexOffset, 0, -vertexOffset) + cellOffset;
+                vertices[v + 3] = new Vector3(vertexOffset, 0, vertexOffset) + cellOffset;
+
+                vertexColors[v + 0] = new Color(Random.value, Random.value, Random.value);
+                vertexColors[v + 1] = new Color(Random.value, Random.value, Random.value);
+                vertexColors[v + 2] = new Color(Random.value, Random.value, Random.value);
+
+                vertexColors[v + 1] = new Color(Random.value, Random.value, Random.value);
+                vertexColors[v + 3] = new Color(Random.value, Random.value, Random.value);
+                vertexColors[v + 2] = new Color(Random.value, Random.value, Random.value);
+
+                triangles[t + 0] = v + 0;
+                triangles[t + 1] = v + 1;
+                triangles[t + 2] = v + 2;
+                triangles[t + 3] = v + 3;
+                triangles[t + 4] = v + 2;
+                triangles[t + 5] = v + 1;
+
+                v += 4;
+                t += 6;
+
+            }
+        }
     }
 }
