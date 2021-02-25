@@ -3,7 +3,7 @@ using UnityEngine;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer))]
-public class ProceduralGrid : MonoBehaviour
+public class ProceduralDiscreteGrid : MonoBehaviour
 {
     public float yValue;
 
