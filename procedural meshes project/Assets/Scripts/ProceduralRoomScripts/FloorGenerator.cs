@@ -24,8 +24,6 @@ namespace Origin.ProceduralRoomScripts
                 fUV[i] = data[i];
             }
 
-
-
             for (int i = 0; i < fVertices.Length; i++)
             {
                 fVertices[i] = new Vector3(data[i].x, 0, data[i].y);

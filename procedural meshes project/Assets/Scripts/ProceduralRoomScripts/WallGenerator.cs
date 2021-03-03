@@ -75,11 +75,11 @@ namespace Origin.ProceduralRoomScripts
         {
             GameObject go = new GameObject("Wall", typeof(MeshFilter), typeof(MeshRenderer));
             MeshRenderer rend = go.GetComponent<MeshRenderer>();
-
+            Debug.Log(go.GetType());
             rend.sharedMaterial = material;
             wallMesh = go.GetComponent<MeshFilter>().mesh;
 
-            wallMesh.Clear();
+            //wallMesh.Clear();
 
             wallMesh.vertices = vertices;
             wallMesh.uv = uv;
@@ -107,7 +107,7 @@ namespace Origin.ProceduralRoomScripts
                 }
             }
 
-            listOfWalls.RemoveAt(listOfWalls.Count - 1);
+            //listOfWalls.RemoveAt(listOfWalls.Count - 1);
         }
     }
 }

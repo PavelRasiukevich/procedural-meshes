@@ -343,8 +343,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wallHeigth: 1
-  material: {fileID: 2100000, guid: f8a753302c0d4324b99735eb5e880f47, type: 2}
-  material_1: {fileID: 2100000, guid: 1eaa444d425b477498d90dce68dbfe04, type: 2}
+  wallMaterial: {fileID: 2100000, guid: f8a753302c0d4324b99735eb5e880f47, type: 2}
+  floorMaterial: {fileID: 2100000, guid: 1eaa444d425b477498d90dce68dbfe04, type: 2}
   startPoint: {fileID: 213821891}
   endPoint: {fileID: 480071909}
   submitButton: {fileID: 334036550}

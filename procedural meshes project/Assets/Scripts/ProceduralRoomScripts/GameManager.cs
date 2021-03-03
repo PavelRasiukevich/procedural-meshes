@@ -20,12 +20,12 @@ namespace Origin.ProceduralRoomScripts
         private Checker checker;
 
         private List<Vector2> list;
-       
+
         private void Start()
         {
             list = new List<Vector2>
             {
-                Vector2.zero
+
             };
 
             wg = new WallGenerator();
@@ -48,10 +48,22 @@ namespace Origin.ProceduralRoomScripts
         private void OnSubmitClick()
         {
 
-            float.TryParse(startPoint.text, out float x);
-            float.TryParse(endPoint.text, out float z);
+            if (string.IsNullOrEmpty(startPoint.text) || string.IsNullOrEmpty(endPoint.text))
+            {
+                Debug.Log("Text Fields are empty");
+            }
+            else
+            {
+                if (float.TryParse(startPoint.text, out float x) && float.TryParse(endPoint.text, out float z))
+                {
+                    list.Add(new Vector2(x, z));
+                }
+                else
+                {
+                    Debug.Log("Ivalid Input. Try more");
+                }
 
-            list.Add(new Vector2(x, z));
+            }
 
             Vector2[] array = checker.Check(list.ToArray());
 
@@ -59,7 +71,7 @@ namespace Origin.ProceduralRoomScripts
             wg.GenerateWall(array, wallHeigth, wallMaterial);
 
             fg.DestroyFloor();
-            fg.GenerateFloor(array,floorMaterial);
+            fg.GenerateFloor(array, floorMaterial);
 
             startPoint.text = string.Empty;
             endPoint.text = string.Empty;
@@ -68,13 +80,12 @@ namespace Origin.ProceduralRoomScripts
 
         private void OnUndoClick()
         {
-            if (list.Count > 1)
+            if (list.Count > 0)
             {
-                list.RemoveAt(list.Count - 1);
-
                 wg.DestroyLastAdded();
                 fg.DestroyFloor();
-                fg.GenerateFloor(list.ToArray(),floorMaterial);
+                fg.GenerateFloor(list.ToArray(), floorMaterial);
+                list.RemoveAt(list.Count - 1);
             }
         }
     }
