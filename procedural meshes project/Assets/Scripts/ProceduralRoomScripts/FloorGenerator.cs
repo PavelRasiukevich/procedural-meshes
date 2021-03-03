@@ -34,7 +34,7 @@ namespace Origin.ProceduralRoomScripts
             floor = new GameObject("Floor", typeof(MeshFilter), typeof(MeshRenderer));
             floorMesh = new Mesh();
 
-            floor.GetComponent<MeshRenderer>().sharedMaterial = material; // new Material(Shader.Find("Standard"));
+            floor.GetComponent<MeshRenderer>().sharedMaterial = material;
             floorMesh = floor.GetComponent<MeshFilter>().mesh;
 
             floorMesh.vertices = fVertices;

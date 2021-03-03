@@ -7,8 +7,8 @@ namespace Origin.ProceduralRoomScripts
     public class GameManager : MonoBehaviour
     {
         [SerializeField] float wallHeigth;
-        [SerializeField] Material material;
-        [SerializeField] Material material_1;
+        [SerializeField] Material wallMaterial;
+        [SerializeField] Material floorMaterial;
 
         [SerializeField] InputField startPoint;
         [SerializeField] InputField endPoint;
@@ -20,14 +20,13 @@ namespace Origin.ProceduralRoomScripts
         private Checker checker;
 
         private List<Vector2> list;
-        private Vector2 lastAdded;
-
+       
         private void Start()
         {
             list = new List<Vector2>
-        {
-            Vector2.zero
-        };
+            {
+                Vector2.zero
+            };
 
             wg = new WallGenerator();
             fg = new FloorGenerator();
@@ -57,10 +56,10 @@ namespace Origin.ProceduralRoomScripts
             Vector2[] array = checker.Check(list.ToArray());
 
             wg.DestroyWalls();
-            wg.GenerateWall(array, wallHeigth, material);
+            wg.GenerateWall(array, wallHeigth, wallMaterial);
 
             fg.DestroyFloor();
-            fg.GenerateFloor(array,material_1);
+            fg.GenerateFloor(array,floorMaterial);
 
             startPoint.text = string.Empty;
             endPoint.text = string.Empty;
@@ -72,9 +71,10 @@ namespace Origin.ProceduralRoomScripts
             if (list.Count > 1)
             {
                 list.RemoveAt(list.Count - 1);
+
                 wg.DestroyLastAdded();
                 fg.DestroyFloor();
-                fg.GenerateFloor(list.ToArray(),material_1);
+                fg.GenerateFloor(list.ToArray(),floorMaterial);
             }
         }
     }
