@@ -8,6 +8,7 @@ namespace Origin.ProceduralRoomScripts
     {
         [SerializeField] float wallHeigth;
         [SerializeField] Material material;
+        [SerializeField] Material material_1;
 
         [SerializeField] InputField startPoint;
         [SerializeField] InputField endPoint;
@@ -59,7 +60,7 @@ namespace Origin.ProceduralRoomScripts
             wg.GenerateWall(array, wallHeigth, material);
 
             fg.DestroyFloor();
-            fg.GenerateFloor(array);
+            fg.GenerateFloor(array,material_1);
 
             startPoint.text = string.Empty;
             endPoint.text = string.Empty;
@@ -73,7 +74,7 @@ namespace Origin.ProceduralRoomScripts
                 list.RemoveAt(list.Count - 1);
                 wg.DestroyLastAdded();
                 fg.DestroyFloor();
-                fg.GenerateFloor(list.ToArray());
+                fg.GenerateFloor(list.ToArray(),material_1);
             }
         }
     }

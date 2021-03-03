@@ -7,15 +7,24 @@ namespace Origin.ProceduralRoomScripts
         private GameObject floor;
         private Mesh floorMesh;
         private Vector3[] fVertices;
+        private Vector2[] fUV;
         private int[] fTriangles;
 
-        public void GenerateFloor(Vector2[] data)
+        public void GenerateFloor(Vector2[] data, Material material)
         {
             Triangulator triangulator = new Triangulator(data);
 
             fTriangles = triangulator.Triangulate();
-
             fVertices = new Vector3[data.Length];
+
+            fUV = new Vector2[data.Length];
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                fUV[i] = data[i];
+            }
+
+
 
             for (int i = 0; i < fVertices.Length; i++)
             {
@@ -25,11 +34,12 @@ namespace Origin.ProceduralRoomScripts
             floor = new GameObject("Floor", typeof(MeshFilter), typeof(MeshRenderer));
             floorMesh = new Mesh();
 
-            floor.GetComponent<MeshRenderer>().sharedMaterial = new Material(Shader.Find("Standard"));
+            floor.GetComponent<MeshRenderer>().sharedMaterial = material; // new Material(Shader.Find("Standard"));
             floorMesh = floor.GetComponent<MeshFilter>().mesh;
 
             floorMesh.vertices = fVertices;
             floorMesh.triangles = fTriangles;
+            floorMesh.uv = fUV;
 
             floorMesh.RecalculateNormals();
         }
